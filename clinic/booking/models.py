@@ -3,10 +3,9 @@ from datetime import datetime
 from django.contrib.auth.models import User
 
 SERVICE_CHOICES = (
-    ("Doctor care", "Doctor care"),
-    ("Nursing care", "Nursing care"),
-    ("Medical social services", "Medical social services"),
-    ("Homemaker or basic assistance care", "Homemaker or basic assistance care"),
+    ("Grooming Service", "Grooming Service"),
+    ("Bath Service", "Bath Service"),
+    ("Medical Services", "Medical Services"),
     )
 TIME_CHOICES = (
     ("3 PM", "3 PM"),
