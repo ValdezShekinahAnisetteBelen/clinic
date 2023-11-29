@@ -1,4 +1,4 @@
-<title>Online Booking</title>
+<title>UniPET</title>
 {% extends 'layout.html' %}
 {% load static %}
 {% block body %}
@@ -7,7 +7,7 @@
 
 
 {% if user.is_authenticated %}
-<h1 class="text-center  mt-3">Online Booking</h1>
+<h1 class="text-center  mt-3">Appointment</h1>
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
     <form method="post" action="{% url 'booking' %}" class="me-2 ms-2" required>
@@ -17,10 +17,9 @@
         <div>
             <h3 class="">Select Service:</h3>
             <select class="form-select fs-3" name="service">
-                <option value="Doctor care">Doctor care</option>
-                <option value="Nursing care">Nursing care</option>
-                <option value="Medical social services">Medical social services</option>
-                <option value="Homemaker or basic assistance care">Homemaker or basic assistance care</option>
+                <option value="Doctor care">Grooming Service</option>
+                <option value="Nursing care">Bath Service</option>
+                <option value="Medical social services">Medical Services</option>
             </select>
         </div>
             <!--input day-->

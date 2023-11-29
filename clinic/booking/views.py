@@ -2,6 +2,30 @@ from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from .models import *
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+
+def deleteAccount(request, id):
+    # Get the user object or return a 404 response if not found
+    user = get_object_or_404(User, id=id)
+
+    # Delete the user
+    user.delete()
+
+    # Display a success message
+    messages.success(request, "User Account Deleted!")
+
+    # Redirect back to the userAccounts view
+    return redirect('userAccounts')
+def editStatus(request, id):
+    appointment = get_object_or_404(Appointment, id=id)
+
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        appointment.status = new_status
+        appointment.save()
+        messages.success(request, "Status Edited!")
+
+    return redirect('staffPanel')
 
 def index(request):
     return render(request, "index.html",{})
@@ -190,6 +214,11 @@ def staffPanel(request):
     return render(request, 'staffPanel.html', {
         'items':items,
     })
+
+def userAccounts(request):
+    # Retrieve all User objects
+    users = User.objects.all()
+    return render(request, 'userAccounts.html', {'users': users})
 
 def dayToWeekday(x):
     z = datetime.strptime(x, "%Y-%m-%d")

@@ -8,24 +8,51 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofMl5uxO+fMHo+4IKxtz6p8Q8ViT4I5k3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" integrity="sha384-Cm5t/gZ9eq9Deh1l5XkF2f5Cev0nxgB6RzuoE4bTjUpHQnA++N80A1tuTwJ0vn3M" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" integrity="sha384-iO65TIY57gr5gY4oAVL2F/cpF+6jGcv3oeezUN4KpxEFeLsEGoMUnvmfXnFVr/gn" crossorigin="anonymous">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous" defer></script>
 
 
     {% block head %}
     {% endblock %}
   </head>
+  <style>
+    /* Add spacing and styling to the navbar */
+    .custom-nav {
+        margin-left: 20px; /* Adjust the spacing as needed */
+    }
+
+    .custom-nav .nav-link {
+        /* Add styling to the text */
+        color: #333; /* Text color */
+        font-weight: bold; /* Bold text */
+        text-decoration: none; /* Remove underline */
+        padding: 10px 15px; /* Add padding around text */
+        border-radius: 5px; /* Add rounded corners */
+        transition: background-color 0.3s; /* Add transition effect */
+    }
+
+    .custom-nav .nav-link:hover {
+        background-color: #eee; /* Change background color on hover */
+    }
+</style>
   <body>
     <header>
-        <nav class="navbar bg-white navbar-white navbar-expand-lg shadow-sm">
+        <nav class="navbar bg-info navbar-white navbar-expand-lg shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand  cHover cGreen fs-2" href="{% url 'index' %}">
-                    NVP ANIMAL CLINIC
+                <a class="navbar-brand text-white cHover cGreen fs-2" href="{% url 'index' %}">
+                    <i class="fas fa-paw"></i> NVP ANIMAL CLINIC
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0  fs-5">
+                    <ul class="navbar-nav mb-2 mb-lg-0 fs-5 custom-nav">
+
                         <li class="nav-item">
                             <a class="nav-link active cHover" aria-current="page" href="{% url 'index' %}">Home</a>
                         </li>
@@ -36,23 +63,42 @@
                             <a class="nav-link active cHover" href="{% url 'booking' %}">Appointment</a>
                         </li>                   
                         {% if user.is_authenticated %}
-                        <!--Clinic Staff Link-->
-                        <li class="nav-item">
-                            <a class="nav-link active cHover" href="{% url 'staffPanel' %}">Staff Panel</a>
-                        </li> 
+                        {% if user.is_staff %}
+                         
+                        {% else %}
+                            <!-- User Panel Link (for non-admin users) -->
+                           
+                        {% endif %}
+                        
                         <li class="nav-item dropdown me-3 fs-5">
                             <a class="nav-link active dropdown-toggle cHover" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              User
+                                {% if user.is_staff %}EDIT{% else %}ADMIN{% endif %}
                             </a>
-                            <ul class="dropdown-menu  border zNav">
-                              <li><a class="dropdown-item" href="{% url 'userPanel' %}">User Panel</a></li>
-                              <li><hr class=""></li>
-                              <li><a class="dropdown-item" href="{% url 'logout' %}">Sign Out</a></li>
+                            <ul class="dropdown-menu border zNav">
+                                <li><a class="dropdown-item" href="{% url 'staffPanel' %}">Admin Panel</a></li>
+                                <li><a class="dropdown-item" href="{% url 'userAccounts' %}">User Accounts</a></li>
                             </ul>
                         </li>
-                        {% else %}
+                
+                    
+                        <!-- User Dropdown Menu -->
+                        <li class="nav-item dropdown me-3 fs-5">
+                            <a class="nav-link active dropdown-toggle cHover" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if user.is_staff %}Admin{% else %}User{% endif %}
+                            </a>
+                            <ul class="dropdown-menu border zNav">
+                                {% if not user.is_staff %}
+                                    <!-- User Panel Link -->
+                                    <li><a class="dropdown-item" href="{% url 'userPanel' %}">User Panel</a></li>
+                                {% endif %}
+                            
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign Out</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+            
                         <li class="nav-item me-3">
-                            <a class="nav-link active cHover" href="{% url 'register' %}">Sign in/Sign Up</a>
+                            <a class="nav-link active cHover text-bg-light" href="{% url 'register' %}">REGISTER | LOGIN</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -77,7 +123,7 @@
 
     {% block body %}
     {% endblock %}
-    <footer class="bg-dark text-white">
+    <footer class="bg-white text-info">
         <div class="container-fluid pt-3">
             <section class="">
                 <div class="container text-center text-md-start mt-5">
