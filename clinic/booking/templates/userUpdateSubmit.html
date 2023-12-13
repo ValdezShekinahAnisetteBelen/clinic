@@ -7,6 +7,7 @@
 
 
 {% if user.is_authenticated %}
+
 <h1 class="text-center fPersian mt-3">Edit Appointment</h1>
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black text-center m-5">
@@ -24,6 +25,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary text-white mt-3 fPersian">Submit</button>
+        <a href="{% url 'userPanel' %}" class="btn btn-danger text-white mt-3 fPersian" role="button">Cancel</a>
+
 
     </form>
 </div>

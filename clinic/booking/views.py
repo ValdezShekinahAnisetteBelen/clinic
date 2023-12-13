@@ -27,6 +27,8 @@ def editStatus(request, id):
 
     return redirect('staffPanel')
 
+
+
 def index(request):
     return render(request, "index.html",{})
 
